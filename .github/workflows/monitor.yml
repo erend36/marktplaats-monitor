@@ -22,12 +22,12 @@ jobs:
           python-version: "3.12"
 
       - name: Marktplaats controleren
-  env:
-    BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-    MAIL_FROM: ${{ secrets.MAIL_FROM }}
-    MAIL_TO: ${{ secrets.MAIL_TO }}
-  run: python monitor.py
-       
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: python monitor.py
+
       - name: Nieuwe lijst opslaan
         run: |
           git config user.name "github-actions[bot]"
@@ -35,5 +35,6 @@ jobs:
           git add seen.json
           if ! git diff --cached --quiet; then
             git commit -m "Update bekeken advertenties"
+            git pull --rebase
             git push
           fi
